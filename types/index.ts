@@ -36,4 +36,5 @@ export interface ContactInfo {
   linkedin: string
   twitter?: string
   instagram?: string
+  facebook?: string
 }
