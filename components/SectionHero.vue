@@ -9,6 +9,18 @@ import { contact } from '~/data/contact'
       <div class="grid lg:grid-cols-[1fr_auto] gap-16 items-start">
         <!-- Left: text -->
         <div>
+          <!-- Mobile photo (shown below lg) -->
+          <div class="lg:hidden mb-10">
+            <div class="w-40 sm:w-48 relative">
+              <img
+                src="/avatar.jpg"
+                alt="Arda Türker"
+                class="w-full aspect-square object-cover object-center grayscale hover:grayscale-0 transition-all duration-500"
+              />
+              <div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white dark:from-slate-950 to-transparent pointer-events-none" />
+            </div>
+          </div>
+
           <p class="font-mono text-xs text-slate-400 dark:text-slate-500 mb-8 tracking-widest uppercase">
             Supply Chain Digitalisation · MSc Student
           </p>
