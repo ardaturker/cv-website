@@ -35,4 +35,5 @@ export interface ContactInfo {
   github: string
   linkedin: string
   twitter?: string
+  instagram?: string
 }
