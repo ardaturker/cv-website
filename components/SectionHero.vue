@@ -73,14 +73,6 @@ import { contact } from '~/data/contact'
             <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white dark:from-slate-950 to-transparent pointer-events-none" />
             <img src="/signature.png" alt="Arda Türker" class="-mt-8 w-64 mx-auto mix-blend-multiply dark:mix-blend-normal dark:invert opacity-80 relative z-10" />
 
-            <!-- Formal inset photo -->
-            <div class="absolute -bottom-6 -right-6 w-24 h-28 border-4 border-white dark:border-slate-950 shadow-lg overflow-hidden z-20">
-              <img
-                src="/avatar-formal.png"
-                alt="Arda Türker formal"
-                class="w-full h-full object-cover object-top grayscale hover:grayscale-0 transition-all duration-500"
-              />
-            </div>
           </div>
         </div>
       </div>
