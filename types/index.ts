@@ -28,6 +28,7 @@ export interface Project {
   githubUrl?: string
   featured?: boolean
   color: 'orange' | 'green' | 'blue'
+  image?: string
 }
 
 export interface ContactInfo {

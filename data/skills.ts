@@ -4,7 +4,7 @@ export const skills: SkillCategory[] = [
   {
     category: 'Technical & Programming',
     color: 'orange',
-    skills: ['Python', 'JavaScript', 'HTML', 'CSS', 'React', 'Node.js', 'Vue.js', 'MySQL'],
+    skills: ['Python', 'JavaScript', 'HTML', 'CSS', 'C', 'React', 'Vue.js', 'Node.js', 'MySQL'],
   },
   {
     category: 'Data & Analytics',
@@ -39,6 +39,6 @@ export const skills: SkillCategory[] = [
   {
     category: 'Languages',
     color: 'yellow',
-    skills: ['Turkish (Native)', 'English (Fluent – IELTS 7.0)', 'Danish (Beginner)', 'German (Basic)'],
+    skills: ['Turkish (Native)', 'English (Fluent — IELTS 7.0)', 'Danish (Beginner)', 'German (Basic)'],
   },
 ]

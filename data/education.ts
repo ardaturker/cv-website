@@ -13,4 +13,10 @@ export const education: EducationItem[] = [
     field: 'Engineering, Innovation & Business',
     year: '2022 – 2025',
   },
+  {
+    school: 'University of Twente',
+    degree: 'Erasmus Exchange',
+    field: 'Innovation, Entrepreneurship & Business Development',
+    year: '2023 – 2024',
+  },
 ]

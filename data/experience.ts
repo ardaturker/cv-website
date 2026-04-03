@@ -10,6 +10,7 @@ export const experience: ExperienceItem[] = [
     bullets: [
       'Managing demand-driven ingredient preparation, adjusting prep volumes based on expected customer flow and real-time demand peaks.',
       'Coordination with team members during rush hours to reduce lead time, improve throughput, and keep service flow stable.',
+      'Handling night shifts in a fast-paced, high-pressure environment — multi-tasking across food preparation, orders, and cleaning.',
     ],
   },
   {
@@ -19,7 +20,9 @@ export const experience: ExperienceItem[] = [
     endDate: 'Sep 2021',
     location: 'Cyprus',
     bullets: [
-      'Managed my own project, applying self-taught programming skills in a real professional environment.',
+      'Owned and delivered a full project independently — covering planning, UI/UX design, and front-end implementation.',
+      'Applied self-taught programming skills in a real professional environment, learning and implementing synchronously.',
+      'Developed and iterated on interfaces using web technologies with a strong focus on user experience.',
     ],
   },
   {
@@ -30,7 +33,7 @@ export const experience: ExperienceItem[] = [
     location: 'Cyprus',
     bullets: [
       'Assisted with invoice tracking, cash flow logging, and daily financial entries.',
-      'Updated and organized records to improve data accuracy.',
+      'Updated and organised records to improve data accuracy across departments.',
       'Supported basic IT troubleshooting to maintain workflow efficiency across departments.',
     ],
   },

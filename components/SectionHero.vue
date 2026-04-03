@@ -32,9 +32,7 @@ import { contact } from '~/data/contact'
           <div class="w-12 h-px bg-indigo-600 mb-8" />
 
           <p class="text-slate-500 dark:text-slate-400 text-lg leading-relaxed max-w-lg mb-10">
-            Motivated supply chain digitalisation student with experience in forecasting energy prices,
-            simulating production flows, and working under high-pressure environments. Focused on
-            data-driven planning, operations optimisation, and where analytics meet real factory performance.
+            MSc Supply Chain Digitalisation student at SDU with a BSc in Engineering, Innovation & Business and an Erasmus exchange at the University of Twente. Built forecasting models for the DK1 electricity market, optimised production simulations in Siemens Plant Simulation, and completed a bachelor thesis with a live startup on trading platform retention. Driven by data, operations, and the intersection of engineering and business.
           </p>
 
           <div class="flex flex-wrap gap-4 mb-12">
@@ -62,9 +60,10 @@ import { contact } from '~/data/contact'
           </div>
         </div>
 
-        <!-- Right: photo -->
+        <!-- Right: photos -->
         <div class="hidden lg:block">
-          <div class="w-64 xl:w-72 relative">
+          <div class="relative w-64 xl:w-72">
+            <!-- Main photo -->
             <img
               src="/avatar.jpg"
               alt="Arda Türker"
@@ -73,6 +72,15 @@ import { contact } from '~/data/contact'
             <!-- Gradient fade over bottom of photo -->
             <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white dark:from-slate-950 to-transparent pointer-events-none" />
             <img src="/signature.png" alt="Arda Türker" class="-mt-8 w-64 mx-auto mix-blend-multiply dark:mix-blend-normal dark:invert opacity-80 relative z-10" />
+
+            <!-- Formal inset photo -->
+            <div class="absolute -bottom-6 -right-6 w-24 h-28 border-4 border-white dark:border-slate-950 shadow-lg overflow-hidden z-20">
+              <img
+                src="/avatar-formal.png"
+                alt="Arda Türker formal"
+                class="w-full h-full object-cover object-top grayscale hover:grayscale-0 transition-all duration-500"
+              />
+            </div>
           </div>
         </div>
       </div>
