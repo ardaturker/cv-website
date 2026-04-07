@@ -1,44 +1,82 @@
-import type { SkillCategory } from '~/types'
+import type { LeveledSkillCategory, Language } from '~/types'
 
-export const skills: SkillCategory[] = [
+export const skills: LeveledSkillCategory[] = [
   {
     category: 'Technical & Programming',
-    color: 'orange',
-    skills: ['Python', 'JavaScript', 'HTML', 'CSS', 'C', 'React', 'Vue.js', 'Node.js', 'MySQL'],
+    icon: 'mdi:code-braces',
+    items: [
+      { name: 'Python', level: 4 },
+      { name: 'HTML / CSS', level: 5 },
+      { name: 'JavaScript', level: 4 },
+      { name: 'MySQL', level: 4 },
+      { name: 'C', level: 3 },
+      { name: 'Vue.js / React', level: 3 },
+    ],
   },
   {
     category: 'Data & Analytics',
-    color: 'blue',
-    skills: ['SPSS', 'MATLAB', 'Excel', 'Quantitative Analysis', 'Regression Analysis', 'Survey Design', 'Hypothesis Testing'],
+    icon: 'mdi:chart-bar',
+    items: [
+      { name: 'Excel / SPSS', level: 5 },
+      { name: 'Power BI', level: 4 },
+      { name: 'Quantitative Analysis', level: 5 },
+      { name: 'Machine Learning', level: 3 },
+      { name: 'MATLAB', level: 3 },
+      { name: 'Plant Simulation', level: 3 },
+    ],
   },
   {
-    category: 'Business & Strategy',
-    color: 'green',
-    skills: ['Market & User Analysis', 'Product Positioning', 'Customer Segmentation', 'Growth Strategy', 'Business Modeling'],
+    category: 'Supply Chain & Operations',
+    icon: 'mdi:truck-delivery',
+    items: [
+      { name: 'Data Pipelines & Automation', level: 4 },
+      { name: 'Production Optimization', level: 4 },
+      { name: 'Forecasting & Planning', level: 4 },
+      { name: 'Demand Planning', level: 3 },
+      { name: 'MRP / ERP Systems', level: 3 },
+      { name: 'Process Improvement', level: 4 },
+    ],
   },
   {
-    category: 'Engineering & Simulation',
-    color: 'blue',
-    skills: ['Siemens NX', 'Plant Simulation', 'Prototype Development', 'Production Optimization', 'Process Optimization'],
+    category: 'Design & Tools',
+    icon: 'mdi:palette',
+    items: [
+      { name: 'Figma', level: 5 },
+      { name: 'Photoshop', level: 4 },
+      { name: 'UI/UX Design', level: 4 },
+      { name: 'Data Visualization', level: 4 },
+      { name: 'Siemens NX', level: 2 },
+    ],
+  },
+]
+
+export const languages: Language[] = [
+  {
+    name: 'Turkish',
+    level: 'Native',
+    understanding: 'Excellent',
+    speaking: 'Excellent',
+    written: 'Excellent',
   },
   {
-    category: 'Tools & Design',
-    color: 'yellow',
-    skills: ['Power BI', 'Figma', 'Photoshop', 'Data Visualization', 'UI/UX Design'],
+    name: 'English',
+    level: 'Fluent — IELTS 7.0',
+    understanding: 'Excellent',
+    speaking: 'Excellent',
+    written: 'Excellent',
   },
   {
-    category: 'Product & Innovation',
-    color: 'orange',
-    skills: ['Startup Development', 'AI-Based Product Concepts', 'User Behavior Analysis', 'Hypothesis Validation', 'Tech + Business Integration'],
+    name: 'Danish',
+    level: 'Beginner',
+    understanding: 'Basic',
+    speaking: 'Basic',
+    written: 'Basic',
   },
   {
-    category: 'Leadership & Communication',
-    color: 'green',
-    skills: ['Event Organization', 'Cross-Cultural Communication', 'Conflict Resolution', 'Team Leadership', 'Workshop Facilitation'],
-  },
-  {
-    category: 'Languages',
-    color: 'yellow',
-    skills: ['Turkish (Native)', 'English (Fluent — IELTS 7.0)', 'Danish (Beginner)', 'German (Basic)'],
+    name: 'German',
+    level: 'Basic',
+    understanding: 'Basic',
+    speaking: 'Basic',
+    written: 'Basic',
   },
 ]

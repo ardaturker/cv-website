@@ -3,9 +3,13 @@ import { experience } from '~/data/experience'
 </script>
 
 <template>
-  <SectionWrapper id="experience" title="Experience" :alt="true">
-    <div class="relative pl-0 space-y-0">
-      <TimelineItem v-for="item in experience" :key="`${item.company}-${item.startDate}`" :item="item" />
+  <section id="experience" class="py-24 bg-white dark:bg-slate-950">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <BaseSectionHeading
+        title="Work Experience"
+        subtitle="From data pipelines at OJ Electronics to hands-on operations."
+      />
+      <BaseTimeline :items="experience" />
     </div>
-  </SectionWrapper>
+  </section>
 </template>

@@ -4,14 +4,36 @@ defineProps<{ project: Project }>()
 </script>
 
 <template>
-  <div class="border border-slate-200 dark:border-slate-800 hover:border-indigo-600 dark:hover:border-indigo-400 transition-colors duration-200 animate-on-scroll flex flex-col overflow-hidden">
-    <!-- Optional project image banner -->
-    <div v-if="project.image" class="w-full h-36 overflow-hidden border-b border-slate-200 dark:border-slate-800">
+  <div
+    class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary-400 dark:hover:border-primary-500 transition-all duration-200 shadow-sm hover:shadow-md flex flex-col overflow-hidden"
+    data-reveal
+  >
+    <!-- Image or color placeholder -->
+    <div class="w-full h-44 overflow-hidden border-b border-slate-200 dark:border-slate-800 shrink-0">
       <img
+        v-if="project.image"
         :src="project.image"
         :alt="project.title"
         class="w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-500"
       />
+      <div
+        v-else
+        class="w-full h-full flex items-end p-4"
+        :class="{
+          'bg-blue-50 dark:bg-blue-950/30': project.color === 'blue',
+          'bg-orange-50 dark:bg-orange-950/30': project.color === 'orange',
+          'bg-emerald-50 dark:bg-emerald-950/30': project.color === 'green',
+        }"
+      >
+        <span
+          class="font-mono text-xs tracking-widest uppercase"
+          :class="{
+            'text-blue-400 dark:text-blue-600': project.color === 'blue',
+            'text-orange-400 dark:text-orange-600': project.color === 'orange',
+            'text-emerald-400 dark:text-emerald-600': project.color === 'green',
+          }"
+        >{{ project.color === 'blue' ? 'Data & Research' : project.color === 'orange' ? 'Engineering' : 'Analytics' }}</span>
+      </div>
     </div>
 
     <div class="p-6 flex flex-col flex-1">
@@ -21,7 +43,7 @@ defineProps<{ project: Project }>()
         <span
           v-for="tech in project.techStack"
           :key="tech"
-          class="font-mono text-xs px-2 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400"
+          class="font-mono text-xs px-2 py-0.5 bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-md"
         >
           {{ tech }}
         </span>
@@ -32,7 +54,7 @@ defineProps<{ project: Project }>()
           :href="project.liveUrl"
           target="_blank"
           rel="noopener noreferrer"
-          class="text-xs font-mono text-indigo-600 dark:text-indigo-400 hover:underline"
+          class="text-xs font-mono text-primary-600 dark:text-primary-400 hover:underline"
         >
           Live →
         </a>
@@ -41,11 +63,11 @@ defineProps<{ project: Project }>()
           :href="project.githubUrl"
           target="_blank"
           rel="noopener noreferrer"
-          class="text-xs font-mono text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors"
+          class="text-xs font-mono text-slate-400 dark:text-slate-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
         >
           GitHub →
         </a>
-        <span v-if="!project.liveUrl && !project.githubUrl" class="text-xs font-mono text-slate-300 dark:text-slate-700">
+        <span v-if="!project.liveUrl && !project.githubUrl" class="text-xs font-mono text-slate-300 dark:text-slate-600">
           Academic project
         </span>
       </div>

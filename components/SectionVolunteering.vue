@@ -3,9 +3,13 @@ import { volunteering } from '~/data/volunteering'
 </script>
 
 <template>
-  <SectionWrapper id="volunteering" title="Volunteering & Leadership" :alt="true">
-    <div class="space-y-0">
-      <TimelineItem v-for="item in volunteering" :key="`${item.company}-${item.startDate}`" :item="item" />
+  <section id="volunteering" class="py-24 bg-slate-50 dark:bg-slate-900/50">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <BaseSectionHeading
+        title="Volunteering & Leadership"
+        subtitle="Community, peace-building, and student leadership across Europe."
+      />
+      <BaseTimeline :items="volunteering" />
     </div>
-  </SectionWrapper>
+  </section>
 </template>

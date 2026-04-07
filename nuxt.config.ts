@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   experimental: {
     appManifest: false,
   },
-  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/google-fonts', '@nuxtjs/sitemap'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/google-fonts', '@nuxtjs/sitemap', 'nuxt-icon'],
   components: [
     { path: '~/components', pathPrefix: false },
   ],

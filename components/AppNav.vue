@@ -2,111 +2,121 @@
 import { useColorMode } from '@vueuse/core'
 
 const mode = useColorMode()
-const mobileOpen = ref(false)
-const activeSection = ref('hero')
+const { activeSection } = useActiveSection()
 const scrolled = ref(false)
+const mobileOpen = ref(false)
 
-const links = [
-  { label: 'About', href: '#hero' },
-  { label: 'Experience', href: '#experience' },
-  { label: 'Volunteering', href: '#volunteering' },
-  { label: 'Education', href: '#education' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Contact', href: '#contact' },
+const navLinks = [
+  { id: 'about', label: 'About' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'volunteering', label: 'Volunteering' },
+  { id: 'education', label: 'Education' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'contact', label: 'Contact' },
 ]
 
 onMounted(() => {
-  window.addEventListener('scroll', () => { scrolled.value = window.scrollY > 20 }, { passive: true })
-  const observer = new IntersectionObserver(
-    entries => entries.forEach(e => { if (e.isIntersecting) activeSection.value = e.target.id }),
-    { rootMargin: '-40% 0px -55% 0px' },
-  )
-  links.forEach(({ href }) => {
-    const el = document.querySelector(href)
-    if (el) observer.observe(el)
-  })
+  const handler = () => { scrolled.value = window.scrollY > 20 }
+  window.addEventListener('scroll', handler, { passive: true })
+  onUnmounted(() => window.removeEventListener('scroll', handler))
 })
 
-function toggleMode() {
+const scrollTo = (id: string) => {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  mobileOpen.value = false
+}
+
+const toggleMode = () => {
   mode.value = mode.value === 'dark' ? 'light' : 'dark'
 }
 </script>
 
 <template>
-  <nav
-    :class="scrolled ? 'bg-white/95 dark:bg-slate-950/95 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800' : 'bg-transparent border-b border-transparent'"
+  <header
     class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+    :class="scrolled
+      ? 'bg-white/90 dark:bg-slate-950/90 backdrop-blur-md shadow-sm border-b border-slate-200/50 dark:border-slate-800/50'
+      : 'bg-transparent'"
   >
-    <div class="max-w-5xl mx-auto px-8 h-20 flex items-center justify-between">
-      <a href="#hero">
-        <img src="/signature.png" alt="Arda Türker" class="h-10 dark:invert opacity-80 hover:opacity-100 transition-opacity mix-blend-multiply dark:mix-blend-normal" />
-      </a>
+    <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+      <!-- Logo -->
+      <button @click="scrollTo('hero')">
+        <img
+          src="/signature.png"
+          alt="Arda Türker"
+          class="h-10 opacity-80 hover:opacity-100 transition-opacity"
+          :class="scrolled ? 'mix-blend-multiply dark:mix-blend-normal dark:invert' : 'dark:invert mix-blend-multiply dark:mix-blend-normal'"
+        />
+      </button>
 
-      <div class="hidden md:flex items-center gap-0">
-        <a
-          v-for="link in links"
-          :key="link.href"
-          :href="link.href"
-          :class="activeSection === link.href.slice(1)
-            ? 'text-indigo-600 dark:text-indigo-400'
-            : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
-          class="font-mono text-sm px-4 py-2 transition-colors duration-200"
-        >
-          {{ link.label }}
-        </a>
-      </div>
+      <!-- Desktop nav links -->
+      <ul class="hidden md:flex items-center gap-1">
+        <li v-for="link in navLinks" :key="link.id">
+          <button
+            @click="scrollTo(link.id)"
+            class="px-4 py-2 text-sm font-medium rounded-lg transition-colors"
+            :class="activeSection === link.id
+              ? (scrolled ? 'text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20' : 'text-white bg-white/10')
+              : scrolled
+                ? 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10'"
+          >
+            {{ link.label }}
+          </button>
+        </li>
+      </ul>
 
-      <div class="flex items-center gap-1">
+      <!-- Right: theme toggle + hamburger -->
+      <div class="flex items-center gap-2">
         <button
-          class="w-8 h-8 flex items-center justify-center text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors"
           @click="toggleMode"
           :aria-label="mode === 'dark' ? 'Light mode' : 'Dark mode'"
+          class="p-2 rounded-lg transition-colors"
+          :class="scrolled
+            ? 'text-slate-500 hover:text-primary-600 dark:text-slate-400 dark:hover:text-primary-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+            : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10'"
         >
-          <!-- Sun icon -->
-          <svg v-if="mode === 'dark'" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <circle cx="12" cy="12" r="4"/>
-            <path stroke-linecap="round" d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-          </svg>
-          <!-- Moon icon -->
-          <svg v-else xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
-          </svg>
+          <Icon v-if="mode === 'dark'" name="mdi:weather-sunny" class="text-xl" />
+          <Icon v-else name="mdi:weather-night" class="text-xl" />
         </button>
 
         <button
-          class="md:hidden w-8 h-8 flex items-center justify-center text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors"
+          class="md:hidden p-2 rounded-lg transition-colors"
+          :class="scrolled
+            ? 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+            : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10'"
           @click="mobileOpen = !mobileOpen"
+          aria-label="Menu"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path v-if="!mobileOpen" stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
-            <path v-else stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-          </svg>
+          <Icon :name="mobileOpen ? 'mdi:close' : 'mdi:menu'" class="text-xl" />
         </button>
       </div>
-    </div>
+    </nav>
 
+    <!-- Mobile menu -->
     <Transition name="slide">
       <div
         v-if="mobileOpen"
-        class="md:hidden bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-slate-800 px-6 py-4 flex flex-col"
+        class="md:hidden bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 px-4 py-4 space-y-1"
       >
-        <a
-          v-for="link in links"
-          :key="link.href"
-          :href="link.href"
-          :class="activeSection === link.href.slice(1) ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-500 dark:text-slate-400'"
-          class="font-mono text-sm py-3 border-b border-slate-100 dark:border-slate-800 last:border-0"
-          @click="mobileOpen = false"
+        <button
+          v-for="link in navLinks"
+          :key="link.id"
+          @click="scrollTo(link.id)"
+          class="block w-full text-left px-4 py-3 text-sm font-medium rounded-lg transition-colors"
+          :class="activeSection === link.id
+            ? 'text-primary-600 bg-primary-50 dark:bg-primary-900/20'
+            : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'"
         >
           {{ link.label }}
-        </a>
+        </button>
       </div>
     </Transition>
-  </nav>
+  </header>
 </template>
 
 <style scoped>
 .slide-enter-active, .slide-leave-active { transition: all 0.2s ease; }
-.slide-enter-from, .slide-leave-to { opacity: 0; transform: translateY(-4px); }
+.slide-enter-from, .slide-leave-to { opacity: 0; transform: translateY(-8px); }
 </style>

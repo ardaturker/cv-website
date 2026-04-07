@@ -2,15 +2,16 @@
 import { useColorMode } from '@vueuse/core'
 const mode = useColorMode()
 useSeo()
+useScrollReveal()
 </script>
 
 <template>
   <div :class="{ dark: mode === 'dark' }">
     <AppSplash />
     <SchemaOrg />
-    <div class="bg-slate-50 dark:bg-slate-950 min-h-screen transition-colors duration-300 antialiased">
+    <div class="bg-white dark:bg-slate-950 min-h-screen transition-colors duration-300 antialiased">
       <AppNav />
-      <main class="pt-20">
+      <main>
         <SectionHero />
         <SectionExperience />
         <SectionVolunteering />
