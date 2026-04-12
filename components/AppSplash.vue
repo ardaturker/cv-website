@@ -9,110 +9,197 @@ onMounted(() => {
 
   show.value = true
 
-  // Trigger entrance after paint
   requestAnimationFrame(() => requestAnimationFrame(() => {
     entered.value = true
   }))
 
-  // Begin exit at 2.2s
-  setTimeout(() => { leaving.value = true }, 2200)
-  // Unmount at 2.9s (after CSS transition finishes)
-  setTimeout(() => { show.value = false }, 2900)
+  // Begin exit at 3.5s
+  setTimeout(() => { leaving.value = true }, 3500)
+  // Unmount at 4.2s
+  setTimeout(() => { show.value = false }, 4200)
 })
 </script>
 
 <template>
-  <Transition name="splash">
+  <Transition name="xp-fade">
     <div
       v-if="show"
-      class="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-slate-950 select-none"
+      class="xp-boot fixed inset-0 z-[200] flex flex-col items-center justify-center select-none"
       :class="{ 'is-leaving': leaving }"
     >
-      <!-- Logo mark -->
-      <div class="splash-logo" :class="{ 'splash-logo--in': entered }">
-        <svg width="72" height="72" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" fill="none">
-          <rect width="40" height="40" rx="7" fill="#1e1b4b"/>
-          <line x1="3" y1="33" x2="11" y2="7" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-          <line x1="11" y1="7" x2="19" y2="33" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-          <line x1="6.5" y1="22" x2="15.5" y2="22" stroke="#f97316" stroke-width="2.5" stroke-linecap="round"/>
-          <line x1="22" y1="9" x2="37" y2="9" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-          <line x1="29.5" y1="9" x2="29.5" y2="33" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- Windows XP Logo -->
+      <div class="xp-logo" :class="{ 'xp-logo--in': entered }">
+        <!-- 4-color waving flag -->
+        <svg width="96" height="88" viewBox="0 0 96 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Red quadrant (top-left) -->
+          <path d="M0 8 C16 6, 44 4, 46 0 L46 40 C44 40, 16 40, 0 40 Z" fill="#FF3300"/>
+          <!-- Green quadrant (top-right) -->
+          <path d="M50 0 C52 4, 80 6, 96 8 L96 40 C80 40, 52 40, 50 40 Z" fill="#00A550"/>
+          <!-- Blue quadrant (bottom-left) -->
+          <path d="M0 44 C16 44, 44 44, 46 44 L46 84 C44 88, 16 86, 0 84 Z" fill="#0066CC"/>
+          <!-- Yellow quadrant (bottom-right) -->
+          <path d="M50 44 C52 44, 80 44, 96 44 L96 80 C80 82, 52 84, 50 84 Z" fill="#FFB300"/>
         </svg>
+
+        <!-- Microsoft text -->
+        <div class="xp-text-wrap">
+          <span class="xp-microsoft">Microsoft</span>
+          <div class="xp-windows-row">
+            <span class="xp-windows">Windows</span>
+            <span class="xp-xp">XP</span>
+          </div>
+          <span class="xp-edition">Professional</span>
+        </div>
       </div>
 
-      <!-- Name -->
-      <p
-        class="splash-name font-sans font-bold text-white text-xl tracking-tight mt-5"
-        :class="{ 'splash-name--in': entered }"
-      >
-        Arda Türker
-      </p>
-
-      <!-- Subtitle -->
-      <p
-        class="splash-sub font-mono text-xs text-slate-500 tracking-widest uppercase mt-2"
-        :class="{ 'splash-sub--in': entered }"
-      >
-        Supply Chain · Developer
-      </p>
-
-      <!-- Progress bar -->
-      <div class="absolute bottom-0 left-0 right-0 h-px bg-slate-800">
-        <div class="splash-progress h-full bg-orange-500" :class="{ 'splash-progress--run': entered }" />
+      <!-- Loading bar -->
+      <div class="xp-loader-wrap" :class="{ 'xp-loader-wrap--in': entered }">
+        <div class="xp-loader-track">
+          <div class="xp-loader-segments">
+            <div class="xp-segment" />
+            <div class="xp-segment" />
+            <div class="xp-segment" />
+          </div>
+        </div>
       </div>
+
+      <!-- Copyright -->
+      <p class="xp-copyright" :class="{ 'xp-copyright--in': entered }">
+        Copyright © Microsoft Corporation
+      </p>
     </div>
   </Transition>
 </template>
 
 <style scoped>
-/* Entrance animations */
-.splash-logo {
-  opacity: 0;
-  transform: scale(0.82) translateY(8px);
-  transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-              transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.splash-logo--in {
-  opacity: 1;
-  transform: scale(1) translateY(0);
+.xp-boot {
+  background: #000;
+  font-family: 'Tahoma', 'Segoe UI', sans-serif;
 }
 
-.splash-name {
+/* Logo + text block */
+.xp-logo {
+  display: flex;
+  align-items: center;
+  gap: 18px;
   opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.45s ease 0.2s, transform 0.45s ease 0.2s;
+  transform: translateY(10px);
+  transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
 }
-.splash-name--in {
+.xp-logo--in {
   opacity: 1;
   transform: translateY(0);
 }
 
-.splash-sub {
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.45s ease 0.35s, transform 0.45s ease 0.35s;
+.xp-text-wrap {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
 }
-.splash-sub--in {
+
+.xp-microsoft {
+  font-size: 13px;
+  font-weight: 400;
+  color: #c8c8c8;
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+
+.xp-windows-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.xp-windows {
+  font-size: 36px;
+  font-weight: 300;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+
+.xp-xp {
+  font-size: 36px;
+  font-weight: 700;
+  color: #e8820c;
+  font-style: italic;
+}
+
+.xp-edition {
+  font-size: 13px;
+  font-weight: 400;
+  color: #c8c8c8;
+  font-style: italic;
+  margin-top: 3px;
+  letter-spacing: 0.03em;
+}
+
+/* Loading bar */
+.xp-loader-wrap {
+  position: absolute;
+  bottom: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  transition: opacity 0.5s ease 0.7s;
+}
+.xp-loader-wrap--in {
   opacity: 1;
-  transform: translateY(0);
 }
 
-/* Progress bar */
-.splash-progress {
-  width: 0%;
-  transition: none;
-}
-.splash-progress--run {
-  width: 100%;
-  transition: width 1.9s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
+.xp-loader-track {
+  width: 150px;
+  height: 14px;
+  border: 1px solid #444;
+  border-radius: 2px;
+  background: #000;
+  overflow: hidden;
+  position: relative;
 }
 
-/* Exit: whole overlay fades up and out */
-.splash-leave-active {
-  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+.xp-loader-segments {
+  display: flex;
+  gap: 4px;
+  position: absolute;
+  left: 0;
+  top: 2px;
+  bottom: 2px;
+  animation: xp-slide 1.4s linear infinite;
 }
-.splash-leave-to {
+
+.xp-segment {
+  width: 28px;
+  flex-shrink: 0;
+  background: linear-gradient(to bottom, #4ea0e8 0%, #1c72c0 50%, #4ea0e8 100%);
+  border-radius: 1px;
+}
+
+@keyframes xp-slide {
+  0%   { transform: translateX(-110px); }
+  100% { transform: translateX(160px); }
+}
+
+/* Copyright */
+.xp-copyright {
+  position: absolute;
+  bottom: 40px;
+  font-size: 11px;
+  color: #555;
+  letter-spacing: 0.02em;
   opacity: 0;
-  transform: translateY(-28px);
+  transition: opacity 0.5s ease 1s;
+}
+.xp-copyright--in {
+  opacity: 1;
+}
+
+/* Exit transition */
+.xp-fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+.xp-fade-leave-to {
+  opacity: 0;
 }
 </style>
