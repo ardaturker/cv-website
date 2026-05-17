@@ -13,6 +13,7 @@ const navLinks = [
   { id: 'education', label: 'Education' },
   { id: 'skills', label: 'Skills' },
   { id: 'projects', label: 'Projects' },
+  { id: 'photos', label: 'Photos' },
   { id: 'contact', label: 'Contact' },
 ]
 

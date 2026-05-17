@@ -83,3 +83,10 @@ export interface ContactInfo {
   facebook?: string
   linkedin?: string
 }
+
+export interface Photo {
+  src: string
+  alt: string
+  caption?: string
+  category?: string
+}

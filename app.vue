@@ -18,6 +18,7 @@ useScrollReveal()
         <SectionEducation />
         <SectionSkills />
         <SectionProjects />
+        <SectionPhotos />
         <SectionContact />
       </main>
     </div>
