@@ -40,13 +40,16 @@ export interface EducationItem {
   subjects?: string[]
 }
 
+/** A tracked skill scored 0–100. Drives the 5-cell segmented stat bars. */
 export interface SkillItem {
   name: string
-  level: 1 | 2 | 3 | 4 | 5
+  value: number
 }
 
 export interface LeveledSkillCategory {
   category: string
+  /** Short label for the stat-screen tab strip, e.g. 'Supply Chain'. */
+  tab: string
   icon: string
   items: SkillItem[]
 }
@@ -65,6 +68,21 @@ export interface SkillCategory {
   skills: string[]
 }
 
+export type ProjectTrack = 'Research' | 'Data' | 'Engineering'
+
+/** One workstream inside a project, scored 0–100 for the contribution bars. */
+export interface Workstream {
+  name: string
+  value: number
+}
+
+export interface CrewMember {
+  name: string
+  role: string
+  /** True while the name is still a stand-in — renders in muted grey. */
+  placeholder?: boolean
+}
+
 export interface Project {
   title: string
   description: string
@@ -74,6 +92,16 @@ export interface Project {
   githubUrl?: string
   featured?: boolean
   color: 'orange' | 'green' | 'blue'
+  kind: string
+  level: string
+  track: ProjectTrack
+  /** Author's share of the whole project, e.g. '70%'. */
+  share: string
+  role: string
+  /** Extra meta shown after kind and level, e.g. 'Credits 15'. */
+  meta: string[]
+  work: Workstream[]
+  crew: CrewMember[]
 }
 
 export interface ContactInfo {

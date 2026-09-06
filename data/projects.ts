@@ -1,5 +1,8 @@
 import type { Project } from '~/types'
 
+// Placeholders still to be filled in: semester / credits / subject per project,
+// the thesis supervisor and collaborator names, and the `share` + workstream
+// values, which are first-pass estimates and should be set honestly.
 export const projects: Project[] = [
   {
     title: 'Trading Platform Adoption & Retention',
@@ -8,6 +11,23 @@ export const projects: Project[] = [
     image: '/projects/bachelor_0.png',
     featured: true,
     color: 'blue',
+    kind: 'Bachelor Thesis',
+    level: 'BSc',
+    track: 'Research',
+    share: '70%',
+    role: 'Lead author',
+    meta: ['Semester —', 'Credits —', 'Industry partner: RYZE'],
+    work: [
+      { name: 'Survey design & data collection', value: 100 },
+      { name: 'Statistical testing (regression, ANOVA, Mann-Whitney U)', value: 100 },
+      { name: 'Writing & literature review', value: 80 },
+      { name: 'Recommendations to the partner', value: 80 },
+    ],
+    crew: [
+      { name: 'Arda Türker', role: 'Author' },
+      { name: 'Supervisor name', role: 'Thesis supervisor', placeholder: true },
+      { name: 'RYZE team', role: 'Industry partner' },
+    ],
   },
   {
     title: 'DK1 Electricity Price Forecasting & Production Planning',
@@ -15,6 +35,23 @@ export const projects: Project[] = [
     techStack: ['Python', 'Machine Learning', 'Time Series Forecasting', 'Excel', 'Supply Chain Planning', 'Optimisation'],
     featured: true,
     color: 'orange',
+    kind: 'Course Project',
+    level: 'MSc',
+    track: 'Data',
+    share: '50%',
+    role: 'Modelling & optimisation',
+    meta: ['Semester —', 'Credits —', 'Subject —'],
+    work: [
+      { name: 'Time series forecasting model', value: 100 },
+      { name: 'Cost optimisation & shift scheduling', value: 100 },
+      { name: 'Data pipeline and cleaning', value: 80 },
+      { name: 'Report & results interpretation', value: 60 },
+    ],
+    crew: [
+      { name: 'Arda Türker', role: 'Forecasting & optimisation' },
+      { name: 'Collaborator name', role: 'Add role', placeholder: true },
+      { name: 'Collaborator name', role: 'Add role', placeholder: true },
+    ],
   },
   {
     title: 'Urban Trends — Retail Data Science',
@@ -23,6 +60,22 @@ export const projects: Project[] = [
     image: '/projects/datascience_0.jpg',
     featured: true,
     color: 'green',
+    kind: 'Applied Project',
+    level: 'MSc',
+    track: 'Data',
+    share: '60%',
+    role: 'Analyst',
+    meta: ['Semester —', 'Credits —', 'Multi-city retail data'],
+    work: [
+      { name: 'Data cleaning & preparation', value: 100 },
+      { name: 'Exploratory data analysis', value: 100 },
+      { name: 'Statistical modelling', value: 80 },
+      { name: 'Managerial recommendations', value: 80 },
+    ],
+    crew: [
+      { name: 'Arda Türker', role: 'Data science lead' },
+      { name: 'Collaborator name', role: 'Add role', placeholder: true },
+    ],
   },
   {
     title: 'Sleepy Time — Smart Sleep Device',
@@ -31,6 +84,23 @@ export const projects: Project[] = [
     image: '/projects/sleepytime_0.png',
     featured: false,
     color: 'blue',
+    kind: 'Product Design',
+    level: 'BSc',
+    track: 'Engineering',
+    share: '50%',
+    role: 'Concept & prototyping',
+    meta: ['Semester —', 'Credits —', 'Prototype built'],
+    work: [
+      { name: 'Concept development', value: 100 },
+      { name: 'Prototype build', value: 80 },
+      { name: 'User research', value: 60 },
+      { name: 'Presentation & pitch', value: 80 },
+    ],
+    crew: [
+      { name: 'Arda Türker', role: 'Concept & prototype' },
+      { name: 'Collaborator name', role: 'Add role', placeholder: true },
+      { name: 'Collaborator name', role: 'Add role', placeholder: true },
+    ],
   },
   {
     title: 'Conveyor System Design & Production Simulation',
@@ -39,6 +109,22 @@ export const projects: Project[] = [
     image: '/projects/spro4_0.png',
     featured: false,
     color: 'orange',
+    kind: 'Course Project',
+    level: 'BSc',
+    track: 'Engineering',
+    share: '60%',
+    role: 'Modelling & simulation',
+    meta: ['Semester —', 'Credits —', 'Subject —'],
+    work: [
+      { name: '3D modelling & technical drawings', value: 100 },
+      { name: 'Discrete-event simulation', value: 100 },
+      { name: 'Throughput & bottleneck analysis', value: 80 },
+      { name: 'Documentation', value: 60 },
+    ],
+    crew: [
+      { name: 'Arda Türker', role: 'Design & simulation' },
+      { name: 'Collaborator name', role: 'Add role', placeholder: true },
+    ],
   },
   {
     title: 'JackShot — Student Startup & TEK EXPO',
@@ -47,5 +133,22 @@ export const projects: Project[] = [
     image: '/projects/jackshot.png',
     featured: false,
     color: 'green',
+    kind: 'Startup',
+    level: 'BSc',
+    track: 'Engineering',
+    share: '40%',
+    role: 'Co-founder',
+    meta: ['First year', 'TEK EXPO', 'Team of —'],
+    work: [
+      { name: 'Product concept', value: 80 },
+      { name: 'Prototype fabrication', value: 60 },
+      { name: 'Pitch & exhibition', value: 100 },
+      { name: 'Market research', value: 60 },
+    ],
+    crew: [
+      { name: 'Arda Türker', role: 'Co-founder' },
+      { name: 'Collaborator name', role: 'Add role', placeholder: true },
+      { name: 'Collaborator name', role: 'Add role', placeholder: true },
+    ],
   },
 ]
