@@ -26,6 +26,14 @@ function selectFromCube(index: number) {
   track.value = 0
 }
 
+/**
+ * The project whose picture is currently turned towards the viewer, or -1 for
+ * an empty face. This only lights up that project's name in the list — the
+ * detail pane stays on whatever was actually clicked, so the cube turning on
+ * its own can't pull the text out from under someone reading it.
+ */
+const facing = ref(-1)
+
 const detail = computed(() => {
   const p = projects[selectedIdx.value]
   return {
@@ -78,17 +86,26 @@ const detail = computed(() => {
             type="button"
             :aria-pressed="i === selectedIdx"
             class="block w-full text-left border-l-2 pl-3.5 py-[11px] bg-transparent transition-colors"
-            :class="i === selectedIdx ? 'border-stat-accent' : 'border-stat-hairline-strong hover:border-stat-hover'"
+            :class="i === selectedIdx
+              ? 'border-stat-accent'
+              : i === facing
+                ? 'border-stat-hover'
+                : 'border-stat-hairline-strong hover:border-stat-hover'"
             @click="selected = i"
           >
+            <!-- Three states: the open project, the one whose picture the cube
+                 is currently turned to, and the rest. -->
             <div
               class="text-[15px] font-medium leading-[1.35] text-pretty transition-colors"
-              :class="i === selectedIdx ? 'text-white' : 'text-stat-ink-dim'"
+              :class="i === selectedIdx ? 'text-white' : i === facing ? 'text-stat-ink-3' : 'text-stat-ink-dim'"
             >
               {{ p.title }}
             </div>
-            <div class="mt-1 font-mono text-[10px] tracking-[.12em] uppercase text-stat-ink-mono-2">
-              {{ p.kind }} · {{ p.level }}
+            <div
+              class="mt-1 font-mono text-[10px] tracking-[.12em] uppercase transition-colors"
+              :class="i === facing && i !== selectedIdx ? 'text-stat-accent-tint' : 'text-stat-ink-mono-2'"
+            >
+              {{ p.kind }} · {{ p.level }}<span v-if="i === facing && i !== selectedIdx"> · on the cube</span>
             </div>
           </button>
         </div>
@@ -111,6 +128,7 @@ const detail = computed(() => {
                 :projects="projects"
                 :selected="selectedIdx"
                 @select="selectFromCube"
+                @facing="facing = $event"
               />
               <div class="px-4 pb-3 font-mono text-[10px] tracking-[.14em] uppercase text-stat-ink-mono-2 text-center">
                 Drag to turn · click a face to open that project

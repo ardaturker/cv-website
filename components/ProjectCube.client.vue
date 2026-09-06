@@ -10,7 +10,12 @@ const props = defineProps<{
   selected: number
 }>()
 
-const emit = defineEmits<{ select: [index: number] }>()
+const emit = defineEmits<{
+  /** A face was tapped: open that project. */
+  select: [index: number]
+  /** The face now turned towards the viewer, or -1 when it is an empty face. */
+  facing: [index: number]
+}>()
 
 /**
  * Face order matches BoxGeometry's material groups:
@@ -279,14 +284,20 @@ const ndc = new Vector2()
  * on the shape of the Tres context, which differs between useTres and
  * useTresContext and gave back no camera at all here.
  */
+let cachedCamera: Camera | undefined
+
 function activeCamera(): Camera | undefined {
-  let root: Object3D = cube.value!
+  // Memoised: the facing poll below would otherwise walk the scene graph on
+  // every tick, and the camera object is stable once the canvas has mounted.
+  if (cachedCamera) return cachedCamera
+  if (!cube.value) return undefined
+
+  let root: Object3D = cube.value
   while (root.parent) root = root.parent
-  let found: Camera | undefined
   root.traverse((o) => {
-    if (!found && (o as Camera & { isCamera?: boolean }).isCamera) found = o as Camera
+    if (!cachedCamera && (o as Camera & { isCamera?: boolean }).isCamera) cachedCamera = o as Camera
   })
-  return found
+  return cachedCamera
 }
 
 let downX = 0
@@ -321,6 +332,50 @@ function onPointerUp(e: PointerEvent) {
   if (project) emit('select', props.projects.indexOf(project))
 }
 
+/**
+ * Reports which face is turned towards the viewer, so the project list can
+ * highlight the name belonging to the picture currently on show.
+ *
+ * The cube sits at the origin and is never rotated — OrbitControls orbits the
+ * camera around it instead — so the world-space face normals are still the six
+ * axis unit vectors, and the front face is just the largest signed component of
+ * the camera's position. This is polled rather than watched because nothing in
+ * Vue's reactive graph changes when OrbitControls turns the view.
+ */
+const FACING_POLL_MS = 100
+
+/** Last reported front face, so an unchanged view emits nothing. */
+let facingFace = -1
+let facingRaf = 0
+let facingPolledAt = 0
+
+function trackFacing(now: number) {
+  facingRaf = requestAnimationFrame(trackFacing)
+
+  // A face stays in front for roughly ten seconds at the auto-rotate speed, so
+  // polling ten times a second is already far finer than the eye needs.
+  if (now - facingPolledAt < FACING_POLL_MS) return
+  facingPolledAt = now
+
+  const cam = activeCamera()
+  if (!cam) return
+
+  // Face order is BoxGeometry's: +X -X +Y -Y +Z -Z. The camera's distance is
+  // common to all six, so the raw components rank exactly as the normalised
+  // dot products against those normals would.
+  const { x, y, z } = cam.position
+  const dots = [x, -x, y, -y, z, -z]
+  let front = 0
+  for (let i = 1; i < FACES; i++) {
+    if (dots[i] > dots[front]) front = i
+  }
+  if (front === facingFace) return
+  facingFace = front
+
+  const project = faceProjects.value[front]
+  emit('facing', project ? props.projects.indexOf(project) : -1)
+}
+
 onMounted(() => {
   reduceMotion.value = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   dpr.value = Math.min(window.devicePixelRatio || 1, 1.75)
@@ -335,6 +390,8 @@ onMounted(() => {
   build()
   loadFaceImages()
   document.fonts?.ready.then(build).catch(() => {})
+
+  facingRaf = requestAnimationFrame(trackFacing)
 })
 
 watch(() => props.selected, () => {
@@ -350,6 +407,7 @@ watch(faceProjects, () => {
 })
 
 onUnmounted(() => {
+  cancelAnimationFrame(facingRaf)
   textures.value.forEach(t => t.dispose())
   materials.value.forEach(m => m.dispose())
 })
