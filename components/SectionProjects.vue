@@ -21,7 +21,7 @@ const selectedIdx = computed(() =>
  * Picking a face selects that project. The track is reset to "All" so the
  * choice can't be immediately hidden by an active filter.
  */
-function selectFromCube(index: number) {
+function selectFromPrism(index: number) {
   selected.value = index
   track.value = 0
 }
@@ -29,7 +29,7 @@ function selectFromCube(index: number) {
 /**
  * The project whose picture is currently turned towards the viewer, or -1 for
  * an empty face. This only lights up that project's name in the list — the
- * detail pane stays on whatever was actually clicked, so the cube turning on
+ * detail pane stays on whatever was actually clicked, so the prism turning on
  * its own can't pull the text out from under someone reading it.
  */
 const facing = ref(-1)
@@ -79,10 +79,10 @@ const detail = computed(() => {
 
       <div class="flex flex-wrap gap-[34px] items-start">
         <!--
-          Picker column. The cube and the name list are one control, not two:
-          the cube shows the picture, the list names it, and the row for the
+          Picker column. The prism and the name list are one control, not two:
+          the prism shows the picture, the list names it, and the row for the
           face currently turned towards you lights up right underneath. Putting
-          them together also gets the cube out of the reading column — it used
+          them together also gets it out of the reading column — the shape used
           to sit above the write-up and push every word of it below the fold —
           and fills the dead space that the short list left in this column.
 
@@ -99,12 +99,12 @@ const detail = computed(() => {
               <!-- No data-reveal inside: useScrollReveal collects those elements
                    in app.vue's onMounted, which runs before ClientOnly content
                    exists, so the wrapper would never receive .is-visible and
-                   would stay at opacity 0 — taking the cube with it. -->
-              <LazyProjectCube
+                   would stay at opacity 0 — taking the prism with it. -->
+              <LazyProjectPrism
                 hydrate-on-visible
                 :projects="projects"
                 :selected="selectedIdx"
-                @select="selectFromCube"
+                @select="selectFromPrism"
                 @facing="facing = $event"
               />
 
@@ -112,7 +112,7 @@ const detail = computed(() => {
                    jump once the canvas mounts. -->
               <template #fallback>
                 <div
-                  class="w-full h-[clamp(200px,46vw,280px)]"
+                  class="w-full h-[clamp(220px,50vw,300px)]"
                   style="background-image: repeating-linear-gradient(135deg, #111a24 0 12px, #0d151d 12px 24px)"
                 />
               </template>
@@ -140,7 +140,7 @@ const detail = computed(() => {
                 @click="selected = i"
               >
                 <!-- Three states: the open project, the one whose picture the
-                     cube is currently turned to, and the rest. -->
+                     prism is currently turned to, and the rest. -->
                 <div
                   class="text-[14.5px] font-medium leading-[1.35] text-pretty transition-colors"
                   :class="i === selectedIdx ? 'text-white' : i === facing ? 'text-stat-ink-3' : 'text-stat-ink-dim'"
@@ -151,7 +151,7 @@ const detail = computed(() => {
                   class="mt-1 font-mono text-[9.5px] tracking-[.12em] uppercase transition-colors"
                   :class="i === facing && i !== selectedIdx ? 'text-stat-accent-tint' : 'text-stat-ink-mono-2'"
                 >
-                  {{ p.kind }} · {{ p.level }}<span v-if="i === facing && i !== selectedIdx"> · on the cube</span>
+                  {{ p.kind }} · {{ p.level }}<span v-if="i === facing && i !== selectedIdx"> · now showing</span>
                 </div>
               </button>
             </div>

@@ -89,20 +89,21 @@ export interface Project {
   techStack: string[]
   image?: string
   /**
-   * Picture painted onto this project's face of the 3D cube in the projects
-   * section. Defaults to `image`; set this only when the face wants a different
-   * shot — a tighter crop, a logo, a cleaner screenshot. Public URL, so a file
-   * at `public/projects/thesis.png` is written '/projects/thesis.png'.
-   * Roughly square art at 512px or larger stays sharp.
+   * Picture painted onto this project's face of the turning prism in the
+   * projects section. Defaults to `image`; set this only when the face wants a
+   * different shot — a tighter crop, a logo, a cleaner screenshot. Public URL,
+   * so a file at `public/projects/thesis.png` is written '/projects/thesis.png'.
+   * Faces are slightly taller than wide, so portrait-ish art at 340x425 or
+   * larger needs the least cropping.
    */
-  cubeImage?: string
+  faceImage?: string
   /**
-   * How the cube face fills itself with the picture.
-   * 'cover' (default) centre-crops to fill the square — best for photos.
+   * How the face fills itself with the picture.
+   * 'cover' (default) centre-crops to fill the face — best for photos.
    * 'contain' fits the whole picture and pads with the face's accent colour —
    * best for logos, diagrams and screenshots that must not be cropped.
    */
-  cubeImageFit?: 'cover' | 'contain'
+  faceImageFit?: 'cover' | 'contain'
   liveUrl?: string
   githubUrl?: string
   featured?: boolean
