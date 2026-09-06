@@ -212,16 +212,19 @@ function drawFace(project: Project | null, color: string, isSelected: boolean): 
     ctx.shadowBlur = 16
   }
 
+  // Type is sized for the face as it actually appears — roughly 110px across in
+  // the picker panel — not for the 512px texture it is drawn into.
   // Kind · level, mirroring the sub-label in the text list.
-  ctx.font = '500 22px "IBM Plex Mono", ui-monospace, monospace'
+  ctx.font = '500 25px "IBM Plex Mono", ui-monospace, monospace'
   ctx.fillStyle = 'rgba(255,255,255,.86)'
   ctx.fillText(`${project.kind} · ${project.level}`.toUpperCase(), S / 2, 86)
 
-  // Title, wrapped.
-  ctx.font = '700 44px "Archivo Narrow", Archivo, sans-serif'
+  // Title, wrapped. Four lines clears both the label above and the accent bar
+  // below at this size; the longest title here runs to three.
+  ctx.font = '700 50px "Archivo Narrow", Archivo, sans-serif'
   ctx.fillStyle = '#ffffff'
-  const lines = wrap(ctx, project.title, S - 88).slice(0, 5)
-  const lineHeight = 50
+  const lines = wrap(ctx, project.title, S - 88).slice(0, 4)
+  const lineHeight = 56
   let y = S / 2 - ((lines.length - 1) * lineHeight) / 2 + 12
   for (const l of lines) {
     ctx.fillText(l, S / 2, y)
@@ -417,14 +420,16 @@ onUnmounted(() => {
   <div
     v-if="!failed"
     ref="wrapper"
-    class="relative w-full h-[clamp(240px,58vw,340px)] cursor-grab active:cursor-grabbing"
+    class="relative w-full h-[clamp(200px,46vw,280px)] bg-stat-panel-foot cursor-grab active:cursor-grabbing"
     @pointerdown="onPointerDown"
     @pointerup="onPointerUp"
   >
     <TresCanvas alpha antialias :dpr="dpr" render-mode="always">
-      <!-- Far enough back that the cube's corner-to-corner diagonal (2.77 for a
-           1.6 cube) still clears the short frame while it turns. -->
-      <TresPerspectiveCamera make-default :position="[3.6, 2.6, 3.6]" :fov="32" />
+      <!-- The frame is only ~280px tall in the picker panel, so the cube is
+           pulled in to fill about 90% of it: at this distance the vertical view
+           is 3.06 units against the cube's 2.77 corner-to-corner diagonal,
+           which is the widest silhouette it presents while turning. -->
+      <TresPerspectiveCamera make-default :position="[3.6, 2.6, 3.6]" :fov="30" />
       <OrbitControls
         make-default
         :enable-zoom="false"
@@ -441,11 +446,11 @@ onUnmounted(() => {
     </TresCanvas>
   </div>
 
-  <!-- No WebGL. The cube now occupies the project's picture slot, so this space
-       still needs filling rather than collapsing. -->
+  <!-- No WebGL. The picker panel still needs its picture area filled rather
+       than collapsed onto the name list below. -->
   <div
     v-else
-    class="w-full h-[clamp(240px,58vw,340px)] flex items-end p-4"
+    class="w-full h-[clamp(200px,46vw,280px)] flex items-end p-4"
     style="background-image: repeating-linear-gradient(135deg, #111a24 0 12px, #0d151d 12px 24px)"
   >
     <span class="font-mono text-[10.5px] tracking-[.14em] text-stat-ink-mono">3D NOT AVAILABLE</span>

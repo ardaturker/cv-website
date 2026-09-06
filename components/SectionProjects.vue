@@ -78,51 +78,28 @@ const detail = computed(() => {
       </div>
 
       <div class="flex flex-wrap gap-[34px] items-start">
-        <!-- Master list -->
-        <div data-reveal class="flex-[1_1_240px] max-w-[300px] min-w-0 flex flex-col">
-          <button
-            v-for="{ p, i } in visible"
-            :key="p.title"
-            type="button"
-            :aria-pressed="i === selectedIdx"
-            class="block w-full text-left border-l-2 pl-3.5 py-[11px] bg-transparent transition-colors"
-            :class="i === selectedIdx
-              ? 'border-stat-accent'
-              : i === facing
-                ? 'border-stat-hover'
-                : 'border-stat-hairline-strong hover:border-stat-hover'"
-            @click="selected = i"
-          >
-            <!-- Three states: the open project, the one whose picture the cube
-                 is currently turned to, and the rest. -->
-            <div
-              class="text-[15px] font-medium leading-[1.35] text-pretty transition-colors"
-              :class="i === selectedIdx ? 'text-white' : i === facing ? 'text-stat-ink-3' : 'text-stat-ink-dim'"
-            >
-              {{ p.title }}
-            </div>
-            <div
-              class="mt-1 font-mono text-[10px] tracking-[.12em] uppercase transition-colors"
-              :class="i === facing && i !== selectedIdx ? 'text-stat-accent-tint' : 'text-stat-ink-mono-2'"
-            >
-              {{ p.kind }} · {{ p.level }}<span v-if="i === facing && i !== selectedIdx"> · on the cube</span>
-            </div>
-          </button>
-        </div>
+        <!--
+          Picker column. The cube and the name list are one control, not two:
+          the cube shows the picture, the list names it, and the row for the
+          face currently turned towards you lights up right underneath. Putting
+          them together also gets the cube out of the reading column — it used
+          to sit above the write-up and push every word of it below the fold —
+          and fills the dead space that the short list left in this column.
 
-        <!-- Detail -->
-        <div data-reveal class="flex-[1_1_420px] min-w-0">
-          <!-- The cube stands where the project photo used to. Each face carries
-               one project's picture (see `cubeImage` in data/projects.ts), so the
-               artwork lives on the cube rather than in a still above it.
-               Decorative shortcut only: the text list to the left is the
-               accessible, keyboard-navigable way to reach every project. -->
-          <ClientOnly>
-            <!-- No data-reveal inside: useScrollReveal collects those elements in
-                 app.vue's onMounted, which runs before ClientOnly content exists,
-                 so the wrapper would never receive .is-visible and would stay at
-                 opacity 0 — taking the cube with it. -->
-            <div class="mb-[22px] border border-stat-hairline-strong bg-[#0b1219]">
+          Deliberately not sticky and not internally scrollable: the panel comes
+          out at 624px against a 709px content column, so the two rows end up
+          near enough the same height that the whole section fits an ordinary
+          screen. Sticky would have had 85px of travel to play with, and a
+          capped, self-scrolling panel would have put a nested scrollbar in the
+          way of what is otherwise a 50px nudge of the page.
+        -->
+        <aside class="flex-[1_1_320px] max-w-[360px] min-w-0">
+          <div data-reveal class="border border-stat-hairline-strong bg-stat-panel">
+            <ClientOnly>
+              <!-- No data-reveal inside: useScrollReveal collects those elements
+                   in app.vue's onMounted, which runs before ClientOnly content
+                   exists, so the wrapper would never receive .is-visible and
+                   would stay at opacity 0 — taking the cube with it. -->
               <LazyProjectCube
                 hydrate-on-visible
                 :projects="projects"
@@ -130,26 +107,60 @@ const detail = computed(() => {
                 @select="selectFromCube"
                 @facing="facing = $event"
               />
-              <div class="px-4 pb-3 font-mono text-[10px] tracking-[.14em] uppercase text-stat-ink-mono-2 text-center">
-                Drag to turn · click a face to open that project
-              </div>
-            </div>
 
-            <!-- Holds the same room before hydration so the detail column below
-                 doesn't jump once the canvas mounts. -->
-            <template #fallback>
-              <div class="mb-[22px] border border-stat-hairline-strong bg-[#0b1219]">
+              <!-- Holds the same room before hydration so the panel doesn't
+                   jump once the canvas mounts. -->
+              <template #fallback>
                 <div
-                  class="w-full h-[clamp(240px,58vw,340px)]"
+                  class="w-full h-[clamp(200px,46vw,280px)]"
                   style="background-image: repeating-linear-gradient(135deg, #111a24 0 12px, #0d151d 12px 24px)"
                 />
-                <div class="px-4 pb-3 font-mono text-[10px] tracking-[.14em] uppercase text-stat-ink-mono-2 text-center">
-                  Drag to turn · click a face to open that project
-                </div>
-              </div>
-            </template>
-          </ClientOnly>
+              </template>
+            </ClientOnly>
 
+            <!-- Reads as the panel's status bar rather than a caption under a
+                 picture, which keeps the hint present but quiet. -->
+            <div class="flex items-center justify-between gap-2 px-3 py-2 border-t border-stat-hairline font-mono text-[9.5px] tracking-[.14em] uppercase text-stat-ink-mono-2">
+              <span>Drag to turn</span>
+              <span>Tap a face</span>
+            </div>
+
+            <div class="border-t border-stat-hairline-strong">
+              <button
+                v-for="{ p, i } in visible"
+                :key="p.title"
+                type="button"
+                :aria-pressed="i === selectedIdx"
+                class="block w-full text-left border-l-2 border-b border-b-stat-hairline last:border-b-0 px-3 py-2.5 transition-colors"
+                :class="i === selectedIdx
+                  ? 'border-l-stat-accent bg-stat-row-hover'
+                  : i === facing
+                    ? 'border-l-stat-hover bg-transparent'
+                    : 'border-l-transparent bg-transparent hover:border-l-stat-hover hover:bg-stat-row-hover'"
+                @click="selected = i"
+              >
+                <!-- Three states: the open project, the one whose picture the
+                     cube is currently turned to, and the rest. -->
+                <div
+                  class="text-[14.5px] font-medium leading-[1.35] text-pretty transition-colors"
+                  :class="i === selectedIdx ? 'text-white' : i === facing ? 'text-stat-ink-3' : 'text-stat-ink-dim'"
+                >
+                  {{ p.title }}
+                </div>
+                <div
+                  class="mt-1 font-mono text-[9.5px] tracking-[.12em] uppercase transition-colors"
+                  :class="i === facing && i !== selectedIdx ? 'text-stat-accent-tint' : 'text-stat-ink-mono-2'"
+                >
+                  {{ p.kind }} · {{ p.level }}<span v-if="i === facing && i !== selectedIdx"> · on the cube</span>
+                </div>
+              </button>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Detail. Nothing above the title any more, so the write-up starts at
+             the top of the column instead of a screen and a half down. -->
+        <div data-reveal class="flex-[1_1_420px] min-w-0">
           <h3 class="m-0 mb-2.5 font-display font-bold text-[clamp(22px,2.6vw,30px)] leading-[1.2] text-pretty">
             {{ detail.title }}
           </h3>
@@ -157,7 +168,9 @@ const detail = computed(() => {
             {{ detail.metaLine }}
           </div>
 
-          <p class="m-0 mb-[30px] text-[15.5px] leading-[1.65] text-stat-ink-4 text-pretty">
+          <!-- Capped measure: the column runs to 640px on a wide screen, which
+               is about 85 characters a line — too long to track comfortably. -->
+          <p class="m-0 mb-[30px] max-w-[68ch] text-[15.5px] leading-[1.65] text-stat-ink-4 text-pretty">
             {{ detail.description }}
           </p>
 
