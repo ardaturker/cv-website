@@ -69,26 +69,6 @@ const detail = computed(() => {
         </div>
       </div>
 
-      <!-- Face picker. Decorative shortcut only: the text list below is the
-           accessible, keyboard-navigable way to reach every project. -->
-      <ClientOnly>
-        <!-- No data-reveal here: useScrollReveal collects those elements in
-             app.vue's onMounted, which runs before ClientOnly content exists,
-             so the wrapper would never receive .is-visible and would stay at
-             opacity 0 — taking the cube with it. -->
-        <div class="mb-[34px] max-w-[520px] mx-auto border border-stat-hairline-strong bg-[#0b1219]">
-          <LazyProjectCube
-            hydrate-on-visible
-            :projects="projects"
-            :selected="selectedIdx"
-            @select="selectFromCube"
-          />
-          <div class="px-4 pb-3 font-mono text-[10px] tracking-[.14em] uppercase text-stat-ink-mono-2 text-center">
-            Drag to turn · click a face to open that project
-          </div>
-        </div>
-      </ClientOnly>
-
       <div class="flex flex-wrap gap-[34px] items-start">
         <!-- Master list -->
         <div data-reveal class="flex-[1_1_240px] max-w-[300px] min-w-0 flex flex-col">
@@ -115,21 +95,42 @@ const detail = computed(() => {
 
         <!-- Detail -->
         <div data-reveal class="flex-[1_1_420px] min-w-0">
-          <div class="aspect-video mb-[22px] overflow-hidden">
-            <img
-              v-if="detail.image"
-              :src="detail.image"
-              :alt="detail.title"
-              class="w-full h-full object-cover"
-            >
-            <div
-              v-else
-              class="w-full h-full flex items-end p-4"
-              style="background-image: repeating-linear-gradient(135deg, #111a24 0 12px, #0d151d 12px 24px)"
-            >
-              <span class="font-mono text-[10.5px] tracking-[.14em] text-stat-ink-mono">NO IMAGE YET</span>
+          <!-- The cube stands where the project photo used to. Each face carries
+               one project's picture (see `cubeImage` in data/projects.ts), so the
+               artwork lives on the cube rather than in a still above it.
+               Decorative shortcut only: the text list to the left is the
+               accessible, keyboard-navigable way to reach every project. -->
+          <ClientOnly>
+            <!-- No data-reveal inside: useScrollReveal collects those elements in
+                 app.vue's onMounted, which runs before ClientOnly content exists,
+                 so the wrapper would never receive .is-visible and would stay at
+                 opacity 0 — taking the cube with it. -->
+            <div class="mb-[22px] border border-stat-hairline-strong bg-[#0b1219]">
+              <LazyProjectCube
+                hydrate-on-visible
+                :projects="projects"
+                :selected="selectedIdx"
+                @select="selectFromCube"
+              />
+              <div class="px-4 pb-3 font-mono text-[10px] tracking-[.14em] uppercase text-stat-ink-mono-2 text-center">
+                Drag to turn · click a face to open that project
+              </div>
             </div>
-          </div>
+
+            <!-- Holds the same room before hydration so the detail column below
+                 doesn't jump once the canvas mounts. -->
+            <template #fallback>
+              <div class="mb-[22px] border border-stat-hairline-strong bg-[#0b1219]">
+                <div
+                  class="w-full h-[clamp(240px,58vw,340px)]"
+                  style="background-image: repeating-linear-gradient(135deg, #111a24 0 12px, #0d151d 12px 24px)"
+                />
+                <div class="px-4 pb-3 font-mono text-[10px] tracking-[.14em] uppercase text-stat-ink-mono-2 text-center">
+                  Drag to turn · click a face to open that project
+                </div>
+              </div>
+            </template>
+          </ClientOnly>
 
           <h3 class="m-0 mb-2.5 font-display font-bold text-[clamp(22px,2.6vw,30px)] leading-[1.2] text-pretty">
             {{ detail.title }}

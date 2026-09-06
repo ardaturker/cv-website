@@ -1,5 +1,12 @@
 import type { Project } from '~/types'
 
+// The 3D cube in the projects section paints one project per face, in this
+// array's order. A face uses `cubeImage` if set, otherwise `image`, otherwise a
+// flat accent colour — so adding a picture to a face is a one-line edit here.
+// Paths are public URLs: a file saved at `public/projects/x.png` is '/projects/x.png'.
+// Add `cubeImageFit: 'contain'` when the picture is a logo or diagram that must
+// not be centre-cropped.
+//
 // Placeholders still to be filled in: semester / credits / subject per project,
 // the thesis supervisor and collaborator names, and the `share` + workstream
 // values, which are first-pass estimates and should be set honestly.
@@ -33,6 +40,10 @@ export const projects: Project[] = [
     title: 'DK1 Electricity Price Forecasting & Production Planning',
     description: 'Developed a data-driven model to forecast Danish electricity market (DK1) hourly prices and optimise industrial production shift scheduling accordingly. The goal was to minimise total production costs — covering electricity, labour, outsourcing and backorder penalties — by scheduling production in the cheapest hours while respecting factory operational constraints.',
     techStack: ['Python', 'Machine Learning', 'Time Series Forecasting', 'Excel', 'Supply Chain Planning', 'Optimisation'],
+    // No artwork yet, so this face shows as flat amber. Drop a file in
+    // public/projects/ and point at it to fill it in, e.g.
+    // cubeImage: '/projects/dk1_forecast.png',
+    // cubeImageFit: 'contain',
     featured: true,
     color: 'orange',
     kind: 'Course Project',
